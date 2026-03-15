@@ -1,12 +1,876 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>ProWebRouen</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebCraft Pro - Professional Website Development</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Language Switcher */
+        .lang-switcher {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lang-switcher:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+
+        .lang-switcher::before {
+            content: "🌐";
+            font-size: 18px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 100px 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></svg>');
+            background-size: 100px 100px;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #fff;
+            color: #667eea;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease 0.4s both;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            background: #f8f9fa;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* About Section */
+        .about {
+            padding: 80px 20px;
+            background: white;
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .about h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .about p {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 80px 20px;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: #333;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .service-card p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 80px 20px;
+            background: white;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .pricing-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+        }
+
+        .pricing-card.featured {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured h3,
+        .pricing-card.featured .price,
+        .pricing-card.featured p {
+            color: white;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .pricing-card ul {
+            list-style: none;
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        .pricing-card ul li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .pricing-card ul li::before {
+            content: "✓";
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .pricing-card.featured ul li::before {
+            color: white;
+        }
+
+        .badge {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background: #ff6b6b;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* Portfolio Section */
+        .portfolio {
+            padding: 80px 20px;
+            background: #f8f9fa;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .portfolio-item {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .portfolio-image {
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .portfolio-content {
+            padding: 30px;
+        }
+
+        .portfolio-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .portfolio-content p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .portfolio-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: #f0f0f0;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: #667eea;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+        }
+
+        .contact-item::before {
+            font-size: 1.5rem;
+        }
+
+        .contact-item.email::before { content: "📧"; }
+        .contact-item.phone::before { content: "📱"; }
+        .contact-item.location::before { content: "📍"; }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .services-grid,
+            .portfolio-grid,
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+<base target="_blank">
 </head>
 <body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">WebCraft Pro</div>
+            <div class="nav-links">
+                <a onclick="scrollToSection('about')" id="nav-about">About</a>
+                <a onclick="scrollToSection('services')" id="nav-services">Services</a>
+                <a onclick="scrollToSection('pricing')" id="nav-pricing">Pricing</a>
+                <a onclick="scrollToSection('portfolio')" id="nav-portfolio">Portfolio</a>
+                <a onclick="scrollToSection('contact')" id="nav-contact">Contact</a>
+            </div>
+        </div>
+    </nav>
 
-<h1>Welcome to ProWebRouen</h1>
-<p>My first website deployed with Vercel.</p>
+    <!-- Language Switcher -->
+    <div class="lang-switcher" onclick="translatePage()">
+        <span id="lang-text">FR</span>
+    </div>
 
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 id="hero-title">WebCraft Pro</h1>
+            <p id="hero-subtitle">Professional Website Development for Small Businesses</p>
+            <button class="cta-button" onclick="scrollToSection('contact')" id="cta-text">Get Your Website</button>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="about-content">
+            <h2 id="about-title">About Us</h2>
+            <p id="about-text1">We are a passionate web development team based in Rouen, France, dedicated to helping small businesses and artisans establish their online presence.</p>
+            <p id="about-text2">With years of experience in creating modern, responsive websites, we understand what it takes to make your business stand out in the digital world.</p>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <h2 class="section-title" id="services-title">Our Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <span class="service-icon">🎨</span>
+                    <h3 id="service1-title">Custom Design</h3>
+                    <p id="service1-desc">Unique, modern designs tailored to your brand identity and business goals.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-icon">📱</span>
+                    <h3 id="service2-title">Mobile Responsive</h3>
+                    <p id="service2-desc">Websites that look perfect on all devices - phones, tablets, and desktops.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-icon">⚡</span>
+                    <h3 id="service3-title">Fast & SEO Ready</h3>
+                    <p id="service3-desc">Optimized for speed and search engines to help customers find you.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-icon">🔧</span>
+                    <h3 id="service4-title">Maintenance</h3>
+                    <p id="service4-desc">Regular updates, backups, and technical support to keep your site running smoothly.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-icon">🎭</span>
+                    <h3 id="service5-title">Logo Design</h3>
+                    <p id="service5-desc">Professional logo creation to establish your brand identity from day one.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <h2 class="section-title" id="pricing-title">Pricing</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3 id="price1-title">Starter</h3>
+                    <div class="price" id="price1-amount">€299</div>
+                    <p id="price1-desc">Perfect for small businesses</p>
+                    <ul>
+                        <li id="price1-feat1">1-3 Pages Website</li>
+                        <li id="price1-feat2">Mobile Responsive</li>
+                        <li id="price1-feat3">Contact Form</li>
+                        <li id="price1-feat4">Basic SEO</li>
+                    </ul>
+                </div>
+                <div class="pricing-card featured">
+                    <span class="badge" id="popular-badge">POPULAR</span>
+                    <h3 id="price2-title">Business</h3>
+                    <div class="price" id="price2-amount">€499</div>
+                    <p id="price2-desc">Complete solution</p>
+                    <ul>
+                        <li id="price2-feat1">5-7 Pages Website</li>
+                        <li id="price2-feat2">Logo Design</li>
+                        <li id="price2-feat3">Advanced SEO</li>
+                        <li id="price2-feat4">Google Maps Integration</li>
+                        <li id="price2-feat5">1 Month Maintenance</li>
+                    </ul>
+                </div>
+                <div class="pricing-card">
+                    <h3 id="price3-title">Premium</h3>
+                    <div class="price" id="price3-amount">€899</div>
+                    <p id="price3-desc">For growing businesses</p>
+                    <ul>
+                        <li id="price3-feat1">Unlimited Pages</li>
+                        <li id="price3-feat2">E-commerce Ready</li>
+                        <li id="price3-feat3">Custom Features</li>
+                        <li id="price3-feat4">3 Months Maintenance</li>
+                        <li id="price3-feat5">Priority Support</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="portfolio" id="portfolio">
+        <div class="container">
+            <h2 class="section-title" id="portfolio-title">Recent Projects</h2>
+            <div class="portfolio-grid">
+                <div class="portfolio-item">
+                    <div class="portfolio-image">🍽️</div>
+                    <div class="portfolio-content">
+                        <h3>Le Petit Bistrot</h3>
+                        <p>Restaurant website with online menu and reservation system for a local bistro in Rouen.</p>
+                        <div class="portfolio-tags">
+                            <span class="tag">Restaurant</span>
+                            <span class="tag">Responsive</span>
+                            <span class="tag">SEO</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <div class="portfolio-image">🔧</div>
+                    <div class="portfolio-content">
+                        <h3>Plombier Pro</h3>
+                        <p>Professional plumbing service website with contact form and emergency call feature.</p>
+                        <div class="portfolio-tags">
+                            <span class="tag">Services</span>
+                            <span class="tag">Contact Form</span>
+                            <span class="tag">Fast</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <div class="portfolio-image">💇</div>
+                    <div class="portfolio-content">
+                        <h3>Coiffure Élégance</h3>
+                        <p>Hair salon website with online booking system and photo gallery of hairstyles.</p>
+                        <div class="portfolio-tags">
+                            <span class="tag">Booking</span>
+                            <span class="tag">Gallery</span>
+                            <span class="tag">Modern</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 id="contact-title">Ready to Start?</h2>
+            <p style="font-size: 1.2rem; opacity: 0.9;" id="contact-subtitle">Contact us for a free consultation</p>
+            <div class="contact-info">
+                <div class="contact-item email">
+                    <span>bdbek09@gmail.com</span>
+                </div>
+                <div class="contact-item phone">
+                    <span>+33 6 06 49 42 34</span>
+                </div>
+                <div class="contact-item location">
+                    <span>Rouen, France</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 WebCraft Pro. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Translation data
+        const translations = {
+            en: {
+                langText: "FR",
+                navAbout: "About",
+                navServices: "Services",
+                navPricing: "Pricing",
+                navPortfolio: "Portfolio",
+                navContact: "Contact",
+                heroTitle: "WebCraft Pro",
+                heroSubtitle: "Professional Website Development for Small Businesses",
+                ctaText: "Get Your Website",
+                aboutTitle: "About Us",
+                aboutText1: "We are a passionate web development team based in Rouen, France, dedicated to helping small businesses and artisans establish their online presence.",
+                aboutText2: "With years of experience in creating modern, responsive websites, we understand what it takes to make your business stand out in the digital world.",
+                servicesTitle: "Our Services",
+                service1Title: "Custom Design",
+                service1Desc: "Unique, modern designs tailored to your brand identity and business goals.",
+                service2Title: "Mobile Responsive",
+                service2Desc: "Websites that look perfect on all devices - phones, tablets, and desktops.",
+                service3Title: "Fast & SEO Ready",
+                service3Desc: "Optimized for speed and search engines to help customers find you.",
+                service4Title: "Maintenance",
+                service4Desc: "Regular updates, backups, and technical support to keep your site running smoothly.",
+                service5Title: "Logo Design",
+                service5Desc: "Professional logo creation to establish your brand identity from day one.",
+                pricingTitle: "Pricing",
+                price1Title: "Starter",
+                price1Amount: "€299",
+                price1Desc: "Perfect for small businesses",
+                price1Feat1: "1-3 Pages Website",
+                price1Feat2: "Mobile Responsive",
+                price1Feat3: "Contact Form",
+                price1Feat4: "Basic SEO",
+                price2Title: "Business",
+                price2Amount: "€499",
+                price2Desc: "Complete solution",
+                price2Feat1: "5-7 Pages Website",
+                price2Feat2: "Logo Design",
+                price2Feat3: "Advanced SEO",
+                price2Feat4: "Google Maps Integration",
+                price2Feat5: "1 Month Maintenance",
+                price3Title: "Premium",
+                price3Amount: "€899",
+                price3Desc: "For growing businesses",
+                price3Feat1: "Unlimited Pages",
+                price3Feat2: "E-commerce Ready",
+                price3Feat3: "Custom Features",
+                price3Feat4: "3 Months Maintenance",
+                price3Feat5: "Priority Support",
+                popularBadge: "POPULAR",
+                portfolioTitle: "Recent Projects",
+                contactTitle: "Ready to Start?",
+                contactSubtitle: "Contact us for a free consultation"
+            },
+            fr: {
+                langText: "EN",
+                navAbout: "À Propos",
+                navServices: "Services",
+                navPricing: "Tarifs",
+                navPortfolio: "Portfolio",
+                navContact: "Contact",
+                heroTitle: "WebCraft Pro",
+                heroSubtitle: "Création de Sites Web Professionnels pour Artisans et PME",
+                ctaText: "Obtenez Votre Site",
+                aboutTitle: "À Propos",
+                aboutText1: "Nous sommes une équipe passionnée de développement web basée à Rouen, en France, dédiée à aider les petites entreprises et artisans à établir leur présence en ligne.",
+                aboutText2: "Avec des années d'expérience dans la création de sites web modernes et responsives, nous comprenons ce qu'il faut pour faire briller votre entreprise dans le monde numérique.",
+                servicesTitle: "Nos Services",
+                service1Title: "Design Sur Mesure",
+                service1Desc: "Designs uniques et modernes adaptés à votre identité de marque et objectifs commerciaux.",
+                service2Title: "Responsive Mobile",
+                service2Desc: "Sites web parfaits sur tous les appareils - téléphones, tablettes et ordinateurs.",
+                service3Title: "Rapide & SEO Optimisé",
+                service3Desc: "Optimisé pour la vitesse et les moteurs de recherche pour aider les clients à vous trouver.",
+                service4Title: "Maintenance",
+                service4Desc: "Mises à jour régulières, sauvegardes et support technique pour garder votre site performant.",
+                service5Title: "Création de Logo",
+                service5Desc: "Création professionnelle de logo pour établir votre identité de marque dès le premier jour.",
+                pricingTitle: "Tarifs",
+                price1Title: "Débutant",
+                price1Amount: "299€",
+                price1Desc: "Parfait pour les petites entreprises",
+                price1Feat1: "Site 1-3 Pages",
+                price1Feat2: "Responsive Mobile",
+                price1Feat3: "Formulaire de Contact",
+                price1Feat4: "SEO Basique",
+                price2Title: "Business",
+                price2Amount: "499€",
+                price2Desc: "Solution complète",
+                price2Feat1: "Site 5-7 Pages",
+                price2Feat2: "Création de Logo",
+                price2Feat3: "SEO Avancé",
+                price2Feat4: "Intégration Google Maps",
+                price2Feat5: "1 Mois de Maintenance",
+                price3Title: "Premium",
+                price3Amount: "899€",
+                price3Desc: "Pour entreprises en croissance",
+                price3Feat1: "Pages Illimitées",
+                price3Feat2: "Prêt pour E-commerce",
+                price3Feat3: "Fonctionnalités Sur Mesure",
+                price3Feat4: "3 Mois de Maintenance",
+                price3Feat5: "Support Prioritaire",
+                popularBadge: "POPULAIRE",
+                portfolioTitle: "Projets Récents",
+                contactTitle: "Prêt à Commencer?",
+                contactSubtitle: "Contactez-nous pour une consultation gratuite"
+            }
+        };
+
+        let currentLang = 'en';
+
+        function translatePage() {
+            currentLang = currentLang === 'en' ? 'fr' : 'en';
+            const t = translations[currentLang];
+
+            document.getElementById('lang-text').textContent = t.langText;
+            document.getElementById('nav-about').textContent = t.navAbout;
+            document.getElementById('nav-services').textContent = t.navServices;
+            document.getElementById('nav-pricing').textContent = t.navPricing;
+            document.getElementById('nav-portfolio').textContent = t.navPortfolio;
+            document.getElementById('nav-contact').textContent = t.navContact;
+            document.getElementById('hero-title').textContent = t.heroTitle;
+            document.getElementById('hero-subtitle').textContent = t.heroSubtitle;
+            document.getElementById('cta-text').textContent = t.ctaText;
+            document.getElementById('about-title').textContent = t.aboutTitle;
+            document.getElementById('about-text1').textContent = t.aboutText1;
+            document.getElementById('about-text2').textContent = t.aboutText2;
+            document.getElementById('services-title').textContent = t.servicesTitle;
+            document.getElementById('service1-title').textContent = t.service1Title;
+            document.getElementById('service1-desc').textContent = t.service1Desc;
+            document.getElementById('service2-title').textContent = t.service2Title;
+            document.getElementById('service2-desc').textContent = t.service2Desc;
+            document.getElementById('service3-title').textContent = t.service3Title;
+            document.getElementById('service3-desc').textContent = t.service3Desc;
+            document.getElementById('service4-title').textContent = t.service4Title;
+            document.getElementById('service4-desc').textContent = t.service4Desc;
+            document.getElementById('service5-title').textContent = t.service5Title;
+            document.getElementById('service5-desc').textContent = t.service5Desc;
+            document.getElementById('pricing-title').textContent = t.pricingTitle;
+            document.getElementById('price1-title').textContent = t.price1Title;
+            document.getElementById('price1-amount').textContent = t.price1Amount;
+            document.getElementById('price1-desc').textContent = t.price1Desc;
+            document.getElementById('price1-feat1').textContent = t.price1Feat1;
+            document.getElementById('price1-feat2').textContent = t.price1Feat2;
+            document.getElementById('price1-feat3').textContent = t.price1Feat3;
+            document.getElementById('price1-feat4').textContent = t.price1Feat4;
+            document.getElementById('price2-title').textContent = t.price2Title;
+            document.getElementById('price2-amount').textContent = t.price2Amount;
+            document.getElementById('price2-desc').textContent = t.price2Desc;
+            document.getElementById('price2-feat1').textContent = t.price2Feat1;
+            document.getElementById('price2-feat2').textContent = t.price2Feat2;
+            document.getElementById('price2-feat3').textContent = t.price2Feat3;
+            document.getElementById('price2-feat4').textContent = t.price2Feat4;
+            document.getElementById('price2-feat5').textContent = t.price2Feat5;
+            document.getElementById('price3-title').textContent = t.price3Title;
+            document.getElementById('price3-amount').textContent = t.price3Amount;
+            document.getElementById('price3-desc').textContent = t.price3Desc;
+            document.getElementById('price3-feat1').textContent = t.price3Feat1;
+            document.getElementById('price3-feat2').textContent = t.price3Feat2;
+            document.getElementById('price3-feat3').textContent = t.price3Feat3;
+            document.getElementById('price3-feat4').textContent = t.price3Feat4;
+            document.getElementById('price3-feat5').textContent = t.price3Feat5;
+            document.getElementById('popular-badge').textContent = t.popularBadge;
+            document.getElementById('portfolio-title').textContent = t.portfolioTitle;
+            document.getElementById('contact-title').textContent = t.contactTitle;
+            document.getElementById('contact-subtitle').textContent = t.contactSubtitle;
+        }
+
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                const offsetTop = element.offsetTop - 80; // Account for fixed nav
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        }
+    </script>
 </body>
 </html>
