@@ -873,9 +873,14 @@
 
   /* SCROLL REVEAL */
   .reveal {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.7s ease;
+  }
+
+  .reveal.hidden {
     opacity: 0;
     transform: translateY(30px);
-    transition: all 0.7s ease;
   }
 
   .reveal.visible {
@@ -1251,15 +1256,23 @@
   }
 
   // SCROLL REVEAL
+  const revealEls = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
+        e.target.classList.remove('hidden');
         e.target.classList.add('visible');
       }
     });
-  }, { threshold: 0.1 });
+  }, { threshold: 0.05, rootMargin: '0px 0px -50px 0px' });
 
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  revealEls.forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top > window.innerHeight) {
+      el.classList.add('hidden');
+    }
+    observer.observe(el);
+  });
 
   // SEND EMAIL (simple mailto fallback)
   function sendEmail() {
