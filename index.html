@@ -1231,7 +1231,7 @@
   function setLang(lang) {
     currentLang = lang;
     document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-    document.querySelector('.lang-btn[onclick="setLang(\'' + lang + '\')"]').classList.add('active');
+    document.getElementById('btn-' + lang).classList.add('active');
 
     document.querySelectorAll('[data-fr]').forEach(el => {
       const text = el.getAttribute('data-' + lang);
@@ -1248,9 +1248,12 @@
     });
 
     const badge = document.querySelector('.about-badge');
-    if (badge) badge.textContent = lang === 'fr' ? '\u2756 Disponible' : '\u2756 Available';
+    if (badge) badge.textContent = lang === 'fr' ? '✦ Disponible' : '✦ Available';
     document.documentElement.lang = lang;
   }
+
+  document.getElementById('btn-fr').addEventListener('click', function() { setLang('fr'); });
+  document.getElementById('btn-en').addEventListener('click', function() { setLang('en'); });
 
   // SCROLL REVEAL
   const revealEls = document.querySelectorAll('.reveal');
