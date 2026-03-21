@@ -918,8 +918,8 @@
     <li><a href="#contact" class="btn-primary" style="padding:0.5rem 1.2rem;font-size:0.85rem;" data-fr="Contact" data-en="Contact">Contact</a></li>
   </ul>
   <div class="lang-toggle">
-    <button class="lang-btn active" onclick="setLang('fr')">FR</button>
-    <button class="lang-btn" onclick="setLang('en')">EN</button>
+    <button class="lang-btn active" id="btn-fr">FR</button>
+    <button class="lang-btn" id="btn-en">EN</button>
   </div>
 </nav>
 
@@ -1224,20 +1224,19 @@
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
   // LANG TOGGLE
   let currentLang = 'fr';
 
   function setLang(lang) {
     currentLang = lang;
     document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-    document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
+    document.querySelector('.lang-btn[onclick="setLang(\'' + lang + '\')"]').classList.add('active');
 
     document.querySelectorAll('[data-fr]').forEach(el => {
-      const text = el.getAttribute(`data-${lang}`);
+      const text = el.getAttribute('data-' + lang);
       if (!text) return;
-      // Handle elements with innerHTML (em tags in h1)
-      if (el.tagName === 'H1' || text.includes('<')) {
+      if (el.tagName === 'H1' || text.includes('<em>')) {
         el.innerHTML = text;
       } else if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
         el.placeholder = text;
@@ -1248,10 +1247,8 @@
       }
     });
 
-    // About badge
     const badge = document.querySelector('.about-badge');
-    if (badge) badge.textContent = lang === 'fr' ? '✦ Disponible' : '✦ Available';
-
+    if (badge) badge.textContent = lang === 'fr' ? '\u2756 Disponible' : '\u2756 Available';
     document.documentElement.lang = lang;
   }
 
@@ -1274,9 +1271,15 @@
     observer.observe(el);
   });
 
-  // SEND EMAIL (simple mailto fallback)
+  // SEND EMAIL
   function sendEmail() {
     const name = document.querySelector('input[type=text]').value;
     const email = document.querySelector('input[type=email]').value;
     const msg = document.querySelector('textarea').value;
-    const subject = encodeURIC
+    const subject = encodeURIComponent('Demande de projet - ProWebRouen');
+    const body = encodeURIComponent('Nom: ' + name + '\nEmail: ' + email + '\n\nProjet:\n' + msg);
+    window.location.href = 'mailto:contact.prowebrouen@gmail.com?subject=' + subject + '&body=' + body;
+  }
+</script>
+</body>
+</html>
