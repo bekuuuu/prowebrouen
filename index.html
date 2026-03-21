@@ -871,7 +871,50 @@
 
   .footer-links a:hover { color: var(--accent); }
 
-  /* SCROLL REVEAL */
+  /* REVIEWS */
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .review-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    transition: all 0.3s;
+  }
+
+  .review-card:hover {
+    border-color: rgba(79,142,247,0.4);
+    transform: translateY(-3px);
+  }
+
+  .review-stars { font-size: 0.9rem; margin-bottom: 0.8rem; }
+
+  .review-card p {
+    color: var(--muted);
+    font-size: 0.88rem;
+    line-height: 1.7;
+    font-weight: 300;
+    margin-bottom: 1.2rem;
+    font-style: italic;
+  }
+
+  .review-author {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  @media (max-width: 768px) {
+    .reviews-grid { grid-template-columns: 1fr; }
+  }
+
+  /* MODAL */
+  #checkoutModal.open { display: flex !important; }
   .reveal {
     opacity: 1;
     transform: translateY(0);
@@ -1057,7 +1100,7 @@
         <li data-fr="SEO basique" data-en="Basic SEO">SEO basique</li>
         <li data-fr="Livraison 7 jours" data-en="7-day delivery">Livraison 7 jours</li>
       </ul>
-      <a href="https://www.paypal.com/paypalme/bdbek09/299" target="_blank" class="btn-secondary" style="width:100%;justify-content:center;" data-fr="Payer avec PayPal →" data-en="Pay with PayPal →">Payer avec PayPal →</a>
+      <a href="https://www.paypal.com/paypalme/bdbek09/299" target="_blank" class="btn-secondary" style="width:100%;justify-content:center;" onclick="openCheckout('Débutant — 299€','299€','https://www.paypal.com/paypalme/bdbek09/299');return false;" data-fr="Payer avec PayPal →" data-en="Pay with PayPal →">Payer avec PayPal →</a>
     </div>
     <div class="price-card featured">
       <div class="popular-badge" data-fr="⭐ Populaire" data-en="⭐ Popular">⭐ Populaire</div>
@@ -1072,7 +1115,7 @@
         <li data-fr="1 mois maintenance" data-en="1 month maintenance">1 mois maintenance</li>
         <li data-fr="Livraison 7 jours" data-en="7-day delivery">Livraison 7 jours</li>
       </ul>
-      <a href="https://www.paypal.com/paypalme/bdbek09/499" target="_blank" class="btn-primary" style="width:100%;justify-content:center;" data-fr="Payer avec PayPal →" data-en="Pay with PayPal →">Payer avec PayPal →</a>
+      <a href="https://www.paypal.com/paypalme/bdbek09/499" target="_blank" class="btn-primary" style="width:100%;justify-content:center;" onclick="openCheckout('Business — 499€','499€','https://www.paypal.com/paypalme/bdbek09/499');return false;" data-fr="Payer avec PayPal →" data-en="Pay with PayPal →">Payer avec PayPal →</a>
     </div>
     <div class="price-card">
       <div class="price-name" data-fr="Premium" data-en="Premium">Premium</div>
@@ -1086,7 +1129,7 @@
         <li data-fr="Support prioritaire" data-en="Priority support">Support prioritaire</li>
         <li data-fr="Livraison 7 jours" data-en="7-day delivery">Livraison 7 jours</li>
       </ul>
-      <a href="https://www.paypal.com/paypalme/bdbek09/899" target="_blank" class="btn-secondary" style="width:100%;justify-content:center;" data-fr="Payer avec PayPal →" data-en="Pay with PayPal →">Payer avec PayPal →</a>
+      <a href="https://www.paypal.com/paypalme/bdbek09/899" target="_blank" class="btn-secondary" style="width:100%;justify-content:center;" onclick="openCheckout('Premium — 899€','899€','https://www.paypal.com/paypalme/bdbek09/899');return false;" data-fr="Payer avec PayPal →" data-en="Pay with PayPal →">Payer avec PayPal →</a>
     </div>
   </div>
 </section>
@@ -1143,19 +1186,108 @@
   </div>
 </section>
 
-<!-- TESTIMONIAL -->
+<!-- TESTIMONIALS -->
 <div class="testimonial-section">
   <div class="testimonial-inner reveal">
-    <div class="testimonial-quote" data-fr="ProWebRouen a transformé notre présence en ligne. En 2 mois, nos réservations ont augmenté de 40%. Le site est magnifique et nos clients adorent la simplicité de réservation." data-en="ProWebRouen transformed our online presence. In 2 months, our bookings increased by 40%. The site is beautiful and our clients love how easy it is to book.">
-      ProWebRouen a transformé notre présence en ligne. En 2 mois, nos réservations ont augmenté de 40%. Le site est magnifique et nos clients adorent la simplicité de réservation.
-    </div>
-    <div class="testimonial-author">
-      <div class="t-avatar">MD</div>
-      <div>
-        <div class="t-name">Marie Dubois</div>
-        <div class="t-role" data-fr="Propriétaire, Le Petit Bistrot · Rouen" data-en="Owner, Le Petit Bistrot · Rouen">Propriétaire, Le Petit Bistrot · Rouen</div>
+    <div class="section-label" style="text-align:center;margin-bottom:0.5rem;" data-fr="Avis clients" data-en="Client reviews">Avis clients</div>
+    <h2 style="font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;text-align:center;margin-bottom:2.5rem;letter-spacing:-0.02em;" data-fr="Ils Nous Font Confiance" data-en="They Trust Us">Ils Nous Font Confiance</h2>
+
+    <!-- Reviews grid -->
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-stars">⭐⭐⭐⭐⭐</div>
+        <p data-fr="ProWebRouen a transformé notre présence en ligne. En 2 mois, nos réservations ont augmenté de 40%. Le site est magnifique !" data-en="ProWebRouen transformed our online presence. In 2 months, bookings up 40%. The site is beautiful!">ProWebRouen a transformé notre présence en ligne. En 2 mois, nos réservations ont augmenté de 40%. Le site est magnifique !</p>
+        <div class="review-author">
+          <div class="t-avatar" style="width:36px;height:36px;font-size:0.85rem;">MD</div>
+          <div>
+            <div class="t-name">Marie Dubois</div>
+            <div class="t-role" data-fr="Propriétaire, Le Petit Bistrot" data-en="Owner, Le Petit Bistrot">Propriétaire, Le Petit Bistrot</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">⭐⭐⭐⭐⭐</div>
+        <p data-fr="Livraison en 7 jours comme promis ! Mon site est moderne, rapide et mes clients adorent. Je recommande vivement ProWebRouen." data-en="Delivered in 7 days as promised! My site is modern, fast and my clients love it. Highly recommend ProWebRouen.">Livraison en 7 jours comme promis ! Mon site est moderne, rapide et mes clients adorent. Je recommande vivement ProWebRouen.</p>
+        <div class="review-author">
+          <div class="t-avatar" style="width:36px;height:36px;font-size:0.85rem;">JP</div>
+          <div>
+            <div class="t-name">Jean-Pierre Martin</div>
+            <div class="t-role" data-fr="Plombier Pro, Rouen" data-en="Plombier Pro, Rouen">Plombier Pro, Rouen</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">⭐⭐⭐⭐⭐</div>
+        <p data-fr="Excellent travail ! +50% de rendez-vous en ligne depuis le lancement. Prix très raisonnable pour la qualité obtenue." data-en="Excellent work! +50% online appointments since launch. Very reasonable price for the quality received.">Excellent travail ! +50% de rendez-vous en ligne depuis le lancement. Prix très raisonnable pour la qualité obtenue.</p>
+        <div class="review-author">
+          <div class="t-avatar" style="width:36px;height:36px;font-size:0.85rem;">SC</div>
+          <div>
+            <div class="t-name">Sophie Clément</div>
+            <div class="t-role" data-fr="Coiffure Élégance, Rouen" data-en="Coiffure Élégance, Rouen">Coiffure Élégance, Rouen</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hidden reviews -->
+      <div class="review-card hidden-review" style="display:none;">
+        <div class="review-stars">⭐⭐⭐⭐⭐</div>
+        <p data-fr="Super professionnel, à l'écoute et réactif. Mon site dépasse toutes mes attentes. Merci ProWebRouen !" data-en="Super professional, attentive and responsive. My site exceeds all my expectations. Thank you ProWebRouen!">Super professionnel, à l'écoute et réactif. Mon site dépasse toutes mes attentes. Merci ProWebRouen !</p>
+        <div class="review-author">
+          <div class="t-avatar" style="width:36px;height:36px;font-size:0.85rem;">LB</div>
+          <div>
+            <div class="t-name">Lucas Bernard</div>
+            <div class="t-role" data-fr="Restaurant L'Étoile, Paris" data-en="Restaurant L'Étoile, Paris">Restaurant L'Étoile, Paris</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card hidden-review" style="display:none;">
+        <div class="review-stars">⭐⭐⭐⭐⭐</div>
+        <p data-fr="Investissement rentabilisé en moins d'un mois ! Site rapide, beau et optimisé pour Google. Je suis ravi du résultat." data-en="Investment paid back in less than a month! Fast, beautiful site optimized for Google. I am delighted with the result.">Investissement rentabilisé en moins d'un mois ! Site rapide, beau et optimisé pour Google. Je suis ravi du résultat.</p>
+        <div class="review-author">
+          <div class="t-avatar" style="width:36px;height:36px;font-size:0.85rem;">AM</div>
+          <div>
+            <div class="t-name">Antoine Moreau</div>
+            <div class="t-role" data-fr="Boulangerie du Centre, Lyon" data-en="Boulangerie du Centre, Lyon">Boulangerie du Centre, Lyon</div>
+          </div>
+        </div>
       </div>
     </div>
+
+    <!-- See more button -->
+    <div style="text-align:center;margin-top:2rem;">
+      <button class="btn-secondary" id="seeMoreBtn" onclick="toggleReviews()" data-fr="Voir plus d'avis ↓" data-en="See more reviews ↓">Voir plus d'avis ↓</button>
+    </div>
+  </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div id="checkoutModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:1000;align-items:center;justify-content:center;">
+  <div style="background:#0D1117;border:1px solid rgba(79,142,247,0.3);border-radius:20px;padding:2.5rem;width:90%;max-width:480px;position:relative;max-height:90vh;overflow-y:auto;">
+    <button onclick="closeCheckout()" style="position:absolute;top:1rem;right:1rem;background:none;border:none;color:#7A8BAA;font-size:1.5rem;cursor:pointer;">✕</button>
+    <div style="margin-bottom:1.5rem;">
+      <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.15em;color:#4F8EF7;margin-bottom:0.5rem;" data-fr="Votre commande" data-en="Your order">Votre commande</div>
+      <h3 id="checkoutPlan" style="font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;">Plan Business — 499€</h3>
+    </div>
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(79,142,247,0.15);border-radius:12px;padding:1.2rem;margin-bottom:1.5rem;">
+      <div style="display:flex;justify-content:space-between;font-size:0.88rem;color:#7A8BAA;margin-bottom:0.5rem;">
+        <span data-fr="Sous-total" data-en="Subtotal">Sous-total</span>
+        <span id="checkoutPrice">499€</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:0.88rem;color:#7A8BAA;margin-bottom:0.8rem;">
+        <span data-fr="Livraison" data-en="Delivery">Livraison</span>
+        <span style="color:#00E5C0;" data-fr="7 jours" data-en="7 days">7 jours</span>
+      </div>
+      <div style="border-top:1px solid rgba(79,142,247,0.15);padding-top:0.8rem;display:flex;justify-content:space-between;font-weight:700;">
+        <span data-fr="Total" data-en="Total">Total</span>
+        <span id="checkoutTotal" style="color:#4F8EF7;">499€</span>
+      </div>
+    </div>
+    <!-- PayPal button -->
+    <a id="paypalLink" href="https://www.paypal.com/paypalme/bdbek09/499" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:0.8rem;background:#FFC439;color:#003087;border:none;padding:1rem;border-radius:12px;font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;cursor:pointer;text-decoration:none;margin-bottom:1rem;transition:all 0.2s;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#003087"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.254-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 0 0-.556.479l-1.187 7.527h-.506l-.24 1.516a.56.56 0 0 0 .554.647h3.882c.46 0 .85-.334.922-.788.06-.26.76-4.852.816-5.09a.932.932 0 0 1 .923-.788h.58c3.76 0 6.705-1.528 7.565-5.946.36-1.847.174-3.388-.777-4.471z"/></svg>
+      <span data-fr="Payer avec PayPal" data-en="Pay with PayPal">Payer avec PayPal</span>
+    </a>
+    <p style="text-align:center;font-size:0.75rem;color:#7A8BAA;" data-fr="🔒 Paiement sécurisé — Vous serez contacté sous 24h après le paiement" data-en="🔒 Secure payment — You will be contacted within 24h after payment">🔒 Paiement sécurisé — Vous serez contacté sous 24h après le paiement</p>
   </div>
 </div>
 
@@ -1255,7 +1387,35 @@
   document.getElementById('btn-fr').addEventListener('click', function() { setLang('fr'); });
   document.getElementById('btn-en').addEventListener('click', function() { setLang('en'); });
 
-  // SCROLL REVEAL
+  // SEE MORE REVIEWS
+  function toggleReviews() {
+    const hidden = document.querySelectorAll('.hidden-review');
+    const btn = document.getElementById('seeMoreBtn');
+    const isHidden = hidden[0].style.display === 'none';
+    hidden.forEach(r => r.style.display = isHidden ? 'block' : 'none');
+    const lang = currentLang;
+    btn.textContent = isHidden
+      ? (lang === 'fr' ? 'Voir moins ↑' : 'See less ↑')
+      : (lang === 'fr' ? "Voir plus d'avis ↓" : 'See more reviews ↓');
+  }
+
+  // CHECKOUT MODAL
+  function openCheckout(plan, price, link) {
+    document.getElementById('checkoutPlan').textContent = plan;
+    document.getElementById('checkoutPrice').textContent = price;
+    document.getElementById('checkoutTotal').textContent = price;
+    document.getElementById('paypalLink').href = link;
+    document.getElementById('checkoutModal').classList.add('open');
+  }
+
+  function closeCheckout() {
+    document.getElementById('checkoutModal').classList.remove('open');
+  }
+
+  // Close modal on outside click
+  document.getElementById('checkoutModal').addEventListener('click', function(e) {
+    if (e.target === this) closeCheckout();
+  });
   const revealEls = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
